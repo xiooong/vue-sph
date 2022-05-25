@@ -1693,8 +1693,22 @@
 </template>
 
 <script>
+
+import {mapState} from 'vuex'
+
 export default {
   name: "TypeNav",
+  mounted(){
+    //通知vuex发请求，获取数据，存储于仓库中
+    this.$store.dispatch('categoryList')
+  },
+  computed:{
+    ...mapState({
+      // 右侧需要的是一个函数，当使用这个计算属性时，右侧函数会立即执行一次
+      // 注入一个参数state（大仓库中的数据）
+      categoryList:state => state.home.categoryList
+    })
+  }
 };
 </script>
 
