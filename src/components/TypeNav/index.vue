@@ -2,39 +2,56 @@
   <!-- 商品分类导航 -->
   <div class="type-nav">
     <div class="container">
-      <div @mouseleave="leavemouse">
+      <div @mouseleave="leavemouse" @mouseenter="enterShow">
         <h2 class="all">全部商品分类</h2>
-        <div class="sort">
-          <div class="all-sort-list2">
-            <div
-              class="item"
-              v-for="(c1, index) in categoryList"
-              :key="c1.categoryId"
-              :class="{ cur: currentIndex == index }"
-            >
-              <h3 @mouseenter="changeIndex(index)">
-                <a href="">{{ c1.categoryName }}</a>
-              </h3>
-              <div class="item-list clearfix" :style="{display : currentIndex == index ? 'block' : 'none'}">
+        <transition name="sort">
+          <div class="sort" @click="gosearch" v-show="showSort">
+            <div class="all-sort-list2">
+              <div
+                class="item"
+                v-for="(c1, index) in categoryList"
+                :key="c1.categoryId"
+                :class="{ cur: currentIndex == index }"
+              >
+                <h3 @mouseenter="changeIndex(index)" @click="gosearch">
+                  <a
+                    :data-categoryName="c1.categoryName"
+                    :data-category1Id="c1.categoryId"
+                    >{{ c1.categoryName }}</a
+                  >
+                  <!-- <router-link to="/search">{{ c1.categoryName }}</router-link> -->
+                </h3>
                 <div
-                  class="subitem"
-                  v-for="c2 in c1.categoryChild"
-                  :key="c2.categoryId"
+                  class="item-list clearfix"
+                  :style="{ display: currentIndex == index ? 'block' : 'none' }"
                 >
-                  <dl class="fore">
-                    <dt>
-                      <a href="">{{ c2.categoryName }}</a>
-                    </dt>
-                    <dd>
-                      <em v-for="c3 in c2.categoryChild" :key="c3.categoryId">
-                        <a href="">{{ c3.categoryName }}</a>
-                      </em>
-                    </dd>
-                  </dl>
+                  <div
+                    class="subitem"
+                    v-for="c2 in c1.categoryChild"
+                    :key="c2.categoryId"
+                  >
+                    <dl class="fore">
+                      <dt>
+                        <a
+                          :data-categoryName="c2.categoryName"
+                          :data-category2Id="c2.categoryId"
+                          >{{ c2.categoryName }}</a
+                        >
+                      </dt>
+                      <dd>
+                        <em v-for="c3 in c2.categoryChild" :key="c3.categoryId">
+                          <a
+                            :data-categoryName="c3.categoryName"
+                            :data-category3Id="c3.categoryId"
+                            >{{ c3.categoryName }}</a
+                          >
+                        </em>
+                      </dd>
+                    </dl>
+                  </div>
                 </div>
               </div>
-            </div>
-            <!-- <div class="item" v-for="c1 in categoryList" :key="c1.categoryId">
+              <!-- <div class="item" v-for="c1 in categoryList" :key="c1.categoryId">
             <h3>
               <a href="">{{c1.categoryName}}</a>
             </h3>
@@ -259,8 +276,9 @@
               </div>
             </div>
           </div> -->
+            </div>
           </div>
-        </div>
+        </transition>
       </div>
       <nav class="nav">
         <a href="###" ref="test">服装城</a>
@@ -278,17 +296,22 @@
 
 <script>
 import { mapState } from "vuex";
+// 引入方式，把lodash全部功能函数引入
+import throttle from "lodash/throttle";
 
 export default {
   name: "TypeNav",
   data() {
     return {
       currentIndex: -1,
+      showSort: true,
     };
   },
   mounted() {
-    //通知vuex发请求，获取数据，存储于仓库中
-    this.$store.dispatch("categoryList");
+    
+    if (this.$route.path != "/home") {
+      this.showSort = false;
+    }
   },
   computed: {
     ...mapState({
@@ -298,13 +321,47 @@ export default {
     }),
   },
   methods: {
-    // 鼠标进入，iu该响应式数据currentIndex属性
-    changeIndex(index) {
-      this.currentIndex = index;
+    gosearch(event) {
+      //获取点击事件元素节点
+      const element = event.target;
+      //获取该元素属性并解构出categoryname（被浏览器转为小写）
+      let { categoryname, category1id, category2id, category3id } =
+        element.dataset;
+      //判断是否有categoryname属性，有该属性的一定是需要跳转事件的标签
+      if (categoryname) {
+        let location = { name: "search" };
+        let query = { categoryName: categoryname };
+        //如果对应元素上存在这个id，就传对应的query
+        if (category1id) {
+          query.category1Id = category1id;
+        } else if (category2id) {
+          query.category2Id = category2id;
+        } else if (category3id) {
+          query.category3Id = category3id;
+        }
+
+        if(this.$route.params){
+          location.params = this.$route.params
+        }
+
+        location.query = query;
+        this.$router.push(location);
+      }
     },
+
+    changeIndex: throttle(function (index) {
+      this.currentIndex = index;
+    }, 50),
+
     leavemouse() {
       this.currentIndex = -1;
-      // this.$refs.test.style.backgroundColor = 'red'
+      if (this.$route.path != "/home") {
+        this.showSort = false;
+      }
+    },
+
+    enterShow() {
+      this.showSort = true;
     },
   },
 };
@@ -329,6 +386,7 @@ export default {
       color: #fff;
       font-size: 14px;
       font-weight: bold;
+      cursor: pointer;
     }
 
     .nav {
@@ -434,6 +492,20 @@ export default {
           cursor: pointer;
         }
       }
+    }
+
+    .sort-enter {
+      height: 0;
+      // transform: rotate(0deg); //旋转动画初始0度
+    }
+
+    .sort-enter-to {
+      height: 210px;
+      // transform: rotate(365deg);   //365度
+    }
+
+    .sort-enter-active {
+      transition: all .1s linear;
     }
   }
 }

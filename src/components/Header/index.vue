@@ -36,6 +36,7 @@
             type="text"
             id="autocomplete"
             class="input-error input-xxlarge"
+            maxlength="5"
             v-model="keyword"
           />
           <button 
@@ -64,15 +65,14 @@ export default {
     goSearch(){
       // 模板字符串方式
       // this.$router.push(`/search/${this.keyword}?k=${this.keyword.toUpperCase()}`)
+      let location = {name:'search',params: {keyword: this.keyword || undefined}}
       // 对象方式
-      this.$router.push({
-        name: 'search',
-        params: {keyword: this.keyword || undefined},
-        query: {k: this.keyword.toUpperCase()},
-      },
-      () =>{},
-      () =>{})
+      if(this.$route.query){
+        location.query = this.$route.query
+      }
+      this.$router.push(location)
     }
+
   }
 };
 </script>
@@ -148,6 +148,7 @@ export default {
             padding: 0px 4px;
             border: 2px solid #ea4a36;
             float: left;
+            
 
             &:focus {
               outline: none;
