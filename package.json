@@ -12,7 +12,9 @@
     "core-js": "^3.8.3",
     "less": "^4.1.2",
     "less-loader": "^5.0.0",
+    "mockjs": "^1.1.0",
     "nprogress": "^0.2.0",
+    "swiper": "^5.4.5",
     "vue": "^2.6.14",
     "vue-router": "^3.5.4",
     "vuex": "^3.6.2"
@@ -20,6 +22,7 @@
   "devDependencies": {
     "@babel/core": "^7.12.16",
     "@babel/eslint-parser": "^7.12.16",
+    "@types/swiper": "^5.4.3",
     "@vue/cli-plugin-babel": "~5.0.0",
     "@vue/cli-plugin-eslint": "~5.0.0",
     "@vue/cli-service": "~5.0.0",

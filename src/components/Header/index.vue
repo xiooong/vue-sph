@@ -36,7 +36,7 @@
             type="text"
             id="autocomplete"
             class="input-error input-xxlarge"
-            maxlength="5"
+            maxlength="10"
             v-model="keyword"
           />
           <button 
