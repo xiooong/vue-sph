@@ -47,7 +47,7 @@
             搜索
           </button>
         </form>
-      </div>c
+      </div>
     </div>
   </header>
 </template>

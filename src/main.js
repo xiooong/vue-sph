@@ -17,8 +17,8 @@ import '@/mock/mockServe'
 // 引入swiper轮播图css样式
 import 'swiper/css/swiper.css'
 //测试
-// import {reqCategoryList} from '@/api'
-// reqCategoryList()
+// import {reqGetSearchInfo} from '@/api'
+// reqGetSearchInfo({})
 
 Vue.config.productionTip = false
 
