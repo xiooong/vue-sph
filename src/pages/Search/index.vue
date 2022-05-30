@@ -11,15 +11,26 @@
             </li>
           </ul>
           <ul class="fl sui-tag">
-            <li class="with-x">手机</li>
-            <li class="with-x">iphone<i>×</i></li>
-            <li class="with-x">华为<i>×</i></li>
-            <li class="with-x">OPPO<i>×</i></li>
+            <li class="with-x" v-if="searchParams.categoryName">
+              {{ searchParams.categoryName }}<i @click="removeCategoryName">x</i>
+            </li>
+            <li class="with-x" v-if="searchParams.keyword">
+              {{ searchParams.keyword }}<i @click="removeKeyword">x</i>
+            </li>
+            <li class="with-x" v-if="searchParams.trademark">
+              {{ searchParams.trademark.split(":")[1] }}<i @click="removeTrademark">x</i>
+            </li>
+            <li class="with-x" v-if="searchParams.attr">
+              {{ searchParams.attr }}<i @click="removeAttr">x</i>
+            </li>
+            <li class="with-x" v-for="(prop,index) in searchParams.props" :key="index">
+              {{ prop.split(":")[1] }}<i @click="removeProps(index)">x</i>
+            </li>
           </ul>
         </div>
 
         <!--selector-->
-        <SearchSelector />
+        <SearchSelector @getTrademarkInfo='getTrademarkInfo' @getAttrInfo='getAttrInfo'/>
 
         <!--details-->
         <div class="details clearfix">
@@ -134,18 +145,18 @@ export default {
         categoryName: "", //分类名字
         keyword: "", //搜索关键字
         order: "", //排序
-        pageNo: 1,  //当前页数
-        pageSize: 10,  //每页展示条数
+        pageNo: 1, //当前页数
+        pageSize: 10, //每页展示条数
         props: [], //平台售卖属性参数
-        trademark: "",  //品牌
+        trademark: "", //品牌
       },
     };
   },
   beforeMount() {
-    Object.assign(this.searchParams,this.$route.query,this.$route.params)
+    Object.assign(this.searchParams, this.$route.query, this.$route.params);
   },
   mounted() {
-    this.getSearch()
+    this.getSearch();
   },
   updated() {},
   components: {
@@ -155,9 +166,60 @@ export default {
     getSearch() {
       this.$store.dispatch("getSearchList", this.searchParams);
     },
+    removeCategoryName() {
+      // 把非必填字段设为undefined，接口不会请求这些数据
+      this.searchParams.categoryName = undefined;
+      this.searchParams.category1Id = undefined;
+      this.searchParams.category2Id = undefined;
+      this.searchParams.category3Id = undefined;
+      // this.getSearch();
+      this.$router.push({name: 'search', params: this.$route.params})
+    }, 
+    removeKeyword() {
+      this.searchParams.keyword = undefined
+      // this.getSearch()
+      this.$router.push({name: 'search',query: this.$route.query})
+      // 通知兄弟组件header清空搜索框
+      this.$bus.$emit("clearKeyword")
+    },
+    removeTrademark() {
+      this.searchParams.trademark = undefined
+      this.$router.push({name:'search', query:this.$route.query, params:this.$route.params})
+      this.getSearch()
+    },
+    removeProps(index) {
+      this.searchParams.props.splice(index,1)
+      this.getSearch()
+    },
+
+    getTrademarkInfo(trademark) {
+      this.searchParams.trademark = `${trademark.tmId}:${trademark.tmName}`
+      this.getSearch()
+    },
+    getAttrInfo(attr,attrValue) {
+      let props = `${attr.attrId}:${attrValue}:${attr.attrName}`
+      if(this.searchParams.props.indexOf(props) == -1){
+        this.searchParams.props.push(props)
+      }
+      
+
+      this.getSearch()
+    }
   },
   computed: {
     ...mapGetters(["goodsList"]),
+
+  },
+  watch: {
+    // 监听路由，路由发生变化就整理参数并调接口
+    $route() {
+      Object.assign(this.searchParams, this.$route.query, this.$route.params);
+      this.getSearch();
+      // 每一次请求完毕，把三级菜单的三个id置空
+      this.searchParams.category1Id = undefined;
+      this.searchParams.category2Id = undefined;
+      this.searchParams.category3Id = undefined;
+    },
   },
 };
 </script>

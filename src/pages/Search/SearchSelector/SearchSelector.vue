@@ -4,7 +4,7 @@
       <div class="fl key brand">品牌</div>
       <div class="value logos">
         <ul class="logo-list">
-          <li v-for="trademark in trademarkList" :key="trademark.tmid">{{trademark.tmName}}</li>
+          <li v-for="trademark in trademarkList" :key="trademark.tmid" @click="tradeMarkHandler(trademark)">{{trademark.tmName}}</li>
         </ul>
       </div>
       <div class="ext">
@@ -12,11 +12,11 @@
         <a href="javascript:void(0);">更多</a>
       </div>
     </div>
-    <div class="type-wrap" v-for="attr in attrsList" :key="attr.attrId">
+    <div class="type-wrap" v-for="attr in attrsList" :key="attr.attrId" >
       <div class="fl key">{{attr.attrName}}</div>
       <div class="fl value">
         <ul class="type-list">
-          <li v-for="(attrValue,index) in attr.attrValueList" :key="index">
+          <li v-for="(attrValue,index) in attr.attrValueList" :key="index" @click="attrsHandler(attr,attrValue)">
             <a>{{attrValue}}</a>
           </li>
         </ul>
@@ -33,6 +33,14 @@ import {mapGetters} from 'vuex'
     computed: {
       ...mapGetters(['trademarkList','attrsList'])
     },
+    methods: {
+      tradeMarkHandler(trademark) {
+        this.$emit('getTrademarkInfo',trademark)
+      },
+      attrsHandler(attr,attrValue) {
+        this.$emit('getAttrInfo',attr,attrValue)
+      }
+    }
   }
 </script>
 
