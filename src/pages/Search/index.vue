@@ -37,23 +37,24 @@
           <div class="sui-navbar">
             <div class="navbar-inner filter">
               <ul class="sui-nav">
-                <li class="active">
-                  <a href="#">综合</a>
+                <li :class="{active: isOne}
+                ">
+                  <a href="#" @click="changeOrder('1')">
+                    综合
+                    <span class="iconfont" :class="{'icon-upload': isAsc, 'icon-download': isDesc}" v-show="isOne">
+                    </span>
+                    <!-- <span class="iconfont icon-download" v-show="isOne && isDesc">
+                    </span> -->
+                  </a>
                 </li>
-                <li>
-                  <a href="#">销量</a>
-                </li>
-                <li>
-                  <a href="#">新品</a>
-                </li>
-                <li>
-                  <a href="#">评价</a>
-                </li>
-                <li>
-                  <a href="#">价格⬆</a>
-                </li>
-                <li>
-                  <a href="#">价格⬇</a>
+                <li :class="{active: isTwo}">
+                  <a href="#" @click="changeOrder('2')">
+                    价格
+                    <span class="iconfont" :class="{'icon-upload': isAsc, 'icon-download': isDesc}" v-show="isTwo">
+                    </span>
+                    <!-- <span class="iconfont icon-download" v-show="isTwo && isDesc">
+                    </span> -->
+                  </a>
                 </li>
               </ul>
             </div>
@@ -144,7 +145,7 @@ export default {
         category3Id: "",
         categoryName: "", //分类名字
         keyword: "", //搜索关键字
-        order: "", //排序
+        order: "1:desc", //排序
         pageNo: 1, //当前页数
         pageSize: 10, //每页展示条数
         props: [], //平台售卖属性参数
@@ -201,14 +202,33 @@ export default {
       if(this.searchParams.props.indexOf(props) == -1){
         this.searchParams.props.push(props)
       }
-      
-
+      this.getSearch()
+    },
+    changeOrder(flag){
+      let originSort = this.searchParams.order.split(':')[1]
+      let originFlag = this.searchParams.order.split(':')[0]
+      if(flag == originFlag){
+        this.searchParams.order = `${flag}:${originSort=='desc' ? 'asc':'desc'}`
+      }else{
+        this.searchParams.order = `${flag}:desc`
+      }
       this.getSearch()
     }
   },
   computed: {
     ...mapGetters(["goodsList"]),
-
+    isOne(){
+      return this.searchParams.order.indexOf('1') != -1
+    },
+    isTwo(){
+      return this.searchParams.order.includes('2')
+    },
+    isAsc(){
+      return this.searchParams.order.includes('asc')
+    },
+    isDesc(){
+      return this.searchParams.order.includes('desc')
+    }
   },
   watch: {
     // 监听路由，路由发生变化就整理参数并调接口

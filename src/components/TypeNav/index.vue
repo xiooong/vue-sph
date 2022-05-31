@@ -83,7 +83,6 @@ export default {
     };
   },
   mounted() {
-    
     if (this.$route.path != "/home") {
       this.showSort = false;
     }
@@ -100,8 +99,7 @@ export default {
       //获取点击事件元素节点
       const element = event.target;
       //获取该元素属性并解构出categoryname（被浏览器转为小写）
-      let { categoryname, category1id, category2id, category3id } =
-        element.dataset;
+      let { categoryname, category1id, category2id, category3id } = element.dataset;
       //判断是否有categoryname属性，有该属性的一定是需要跳转事件的标签
       if (categoryname) {
         let location = { name: "search" };
