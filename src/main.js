@@ -3,10 +3,12 @@ import App from './App.vue'
 
 // 全局组件定义在main.js
 import TypeNav from '@/components/TypeNav'
-import Carousel from '@/components/carousel'
+import Carousel from '@/components/Carousel'
+import Pagination from '@/components/Pagination'
 // 第一个参数：组件名字name 第二个参数：哪一个组件
 Vue.component(TypeNav.name,TypeNav)
 Vue.component(Carousel.name,Carousel)
+Vue.component(Pagination.name,Pagination)
 
 // 引入路由
 import router from '@/router'
