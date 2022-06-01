@@ -193,6 +193,7 @@ export default {
     },
     getPageNo(pageNo){
       this.searchParams.pageNo = pageNo
+      this.getSearch()
     }
   },
   computed: {
