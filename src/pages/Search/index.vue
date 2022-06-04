@@ -3,6 +3,7 @@
     <TypeNav />
     <div class="main">
       <div class="py-container">
+
         <!--bread-->
         <div class="bread">
           <ul class="fl sui-breadcrumb">
@@ -34,6 +35,7 @@
 
         <!--details-->
         <div class="details clearfix">
+
           <div class="sui-navbar">
             <div class="navbar-inner filter">
               <ul class="sui-nav">
@@ -59,17 +61,19 @@
               </ul>
             </div>
           </div>
+
+          <!-- goodList -->
           <div class="goods-list">
             <ul class="yui3-g">
               <li class="yui3-u-1-5" v-for="good in goodsList" :key="good.id">
                 <div class="list-wrap">
                   <div class="p-img">
-                    <a href="item.html" target="_blank">
+                    <router-link :to="`/detail/${good.id}`">
                       <img :src="good.defaultImg" />
-                    </a>
+                    </router-link>
                   </div>
                   <div class="price">
-                    <strong>
+                    <strong>  
                       <em>¥</em>
                       <i>{{ good.price }}</i>
                     </strong>
@@ -97,6 +101,7 @@
               </li>
             </ul>
           </div>
+
           <Pagination 
             :pageNo="searchParams.pageNo" 
             :pageSize='searchParams.pageSize' 
@@ -104,7 +109,9 @@
             :continues='5' 
             @getPageNo="getPageNo"
           />
+
         </div>
+
       </div>
     </div>
   </div>

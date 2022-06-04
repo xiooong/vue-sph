@@ -1,6 +1,9 @@
 <template>
   <div class="pagination">
-    <button :disabled="pageNo == 1" @click="$emit('getPageNo', pageNo - 1)">
+    <button 
+      :disabled="pageNo == 1" 
+      @click="$emit('getPageNo', pageNo - 1)"
+    >
       上一页
     </button>
     <button  v-show="this.startAndEnd.start > 1" @click="$emit('getPageNo', 1)">
@@ -9,9 +12,9 @@
     <button v-show="this.startAndEnd.start > 2">···</button>
 
     <button
-      :class="{active: isClick == index}"
-      v-for="(page, index) in this.startAndEnd.continueArray"
-      :key="index"
+      :class="{active: pageNo == page}"
+      v-for="page in this.startAndEnd.continueArray"
+      :key="page"
       @click="$emit('getPageNo', page)"
     >
       {{ page }}
@@ -101,9 +104,6 @@ export default {
     },
   },
   methods: {
-    //  paginationClick(index){
-    //     this.isClick = index
-    //  }
   },
   mounted() {
     //   console.log(this.startAndEnd)

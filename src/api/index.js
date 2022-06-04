@@ -11,8 +11,13 @@ export const reqCategoryList = () => requests.get('/product/getBaseCategoryList'
 
 // banner（HOME首页轮播图接口） 
 export const reqGetBannerList = ()=>mockRequests.get('/banner')
+
 // floor（首页下方商品展示）
 export const reqGetFloorList = ()=>mockRequests.get('/floor')
+
 // search 搜索页面
 // 当前这个接口，给服务器传递一个默认参数（至少是一个空对象{}） 
 export const reqGetSearchInfo = (params)=>requests({url:"/list",method:"post",data:params})
+
+// detail商品详情页
+export const reqGetDetailInfo = (skuId)=>requests({url:`/item/${skuId}`,method:"get"})
