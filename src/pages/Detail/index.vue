@@ -8,13 +8,13 @@
       <!-- 导航路径区域 -->
       <div class="conPoin">
         <span v-show="categoryView.category1Name">
-          {{categoryView.category1Name}}
+          {{ categoryView.category1Name }}
         </span>
         <span v-show="categoryView.category2Name">
-          {{categoryView.category2Name}}
+          {{ categoryView.category2Name }}
         </span>
         <span v-show="categoryView.category3Name">
-          {{categoryView.category3Name}}
+          {{ categoryView.category3Name }}
         </span>
       </div>
       <!-- 主要内容区域 -->
@@ -85,7 +85,7 @@
                   :class="{ active: spuValue.isChecked == 1 }"
                   v-for="spuValue in spu.spuSaleAttrValueList"
                   :key="spuValue.id"
-                  @click="changeActive(spuValue,spu.spuSaleAttrValueList)"
+                  @click="changeActive(spuValue, spu.spuSaleAttrValueList)"
                 >
                   {{ spuValue.saleAttrValueName }}
                 </dd>
@@ -93,12 +93,22 @@
             </div>
             <div class="cartWrap">
               <div class="controls">
-                <input autocomplete="off" class="itxt" />
-                <a href="javascript:" class="plus">+</a>
-                <a href="javascript:" class="mins">-</a>
+                <input
+                  autocomplete="off"
+                  class="itxt"
+                  v-model="skuNum"
+                  @change="handler"
+                />
+                <a href="javascript:" class="plus" @click="skuNum++">+</a>
+                <a
+                  href="javascript:"
+                  class="mins"
+                  @click="skuNum > 1 ? skuNum-- : 1"
+                  >-</a
+                >
               </div>
               <div class="add">
-                <a href="javascript:">加入购物车</a>
+                <a href="javascript:" @click="updateShopcar">加入购物车</a>
               </div>
             </div>
           </div>
@@ -343,6 +353,11 @@ import { mapGetters } from "vuex";
 
 export default {
   name: "Detail",
+  data() {
+    return {
+      skuNum: 1,
+    };
+  },
   components: {
     ImageList,
     Zoom,
@@ -358,13 +373,33 @@ export default {
     },
   },
   methods: {
-    changeActive(spuValue,spuValueArr){
-      spuValueArr.forEach(item => {
-        item.isChecked = 0
+    changeActive(spuValue, spuValueArr) {
+      spuValueArr.forEach((item) => {
+        item.isChecked = 0;
       });
-      spuValue.isChecked = 1
-    }
-  }
+      spuValue.isChecked = 1;
+    },
+    handler(event) {
+      let num = event.target.value * 1;
+      if (isNaN(num) || num < 1) {
+        this.skuNum = 1;
+      } else {
+        this.skuNum = parseInt(num);
+      }
+    },
+    async updateShopcar() {
+      try {
+        await this.$store.dispatch("updateShopcar", {
+          skuId: this.$route.params.skuId,
+          skuNum: this.skuNum,
+        });
+        this.$router.push({name:'addcartsuccess', query:{skuNum: this.skuNum}})
+        sessionStorage.setItem('SKUINFO',JSON.stringify(this.skuInfo))
+      } catch (error) {
+        alert(error.message);
+      }
+    },
+  },
 };
 </script>
 

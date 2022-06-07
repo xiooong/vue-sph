@@ -1,4 +1,4 @@
-import { reqGetDetailInfo } from "@/api"
+import { reqGetDetailInfo, reqUpdateShopcarInfo } from "@/api"
 
 const state = {
     goodInfo: {}
@@ -15,6 +15,17 @@ const actions = {
         console.log('商品详情接口',result)
         if (result.code == 200) {
             commit('GETDETAILINFO', result.data)
+        }
+    },
+    async updateShopcar({state, commit, dispatch},{skuId,skuNum}){
+        // debugger
+        let result = await reqUpdateShopcarInfo(skuId,skuNum)
+        console.log(result,skuId,skuNum)
+
+        if(result.code == 200){
+            return 'ok'
+        }else{
+            return Promise.reject(new Error('addcartFailed'));
         }
     }
 }

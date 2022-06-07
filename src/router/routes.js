@@ -9,7 +9,19 @@ import Detail from '@/pages/Detail'
 // 路由配置信息
 export default  [
     {
+        path: "/shopcart",
+        name: "shopcart",
+        component: () => import("@/pages/ShopCart")
+    },
+    {
+        path: "/addcartsuccess",
+        name: "addcartsuccess",
+        component: () => import("@/pages/AddCartSuccess")
+
+    },
+    {
         path: "/detail/:skuId?",
+        name: "detail",
         component: Detail,
         meta:{show:true}
     },

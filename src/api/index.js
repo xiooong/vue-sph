@@ -1,5 +1,5 @@
 //统一管理api接口
-import requests from './ajax'
+import requests from './requests'
 import mockRequests from './mockAjax'
 
 // 三级联动接口
@@ -21,3 +21,9 @@ export const reqGetSearchInfo = (params)=>requests({url:"/list",method:"post",da
 
 // detail商品详情页
 export const reqGetDetailInfo = (skuId)=>requests({url:`/item/${skuId}`,method:"get"})
+
+// 加入购物车，修改商品个数
+export const reqUpdateShopcarInfo = (skuId,skuNum)=>requests({url:`/cart/addToCart/${skuId}/${skuNum}`,method:'post'});
+
+// 获取购物车列表
+export const reqGetCartList = ()=>requests({url:'/cart/cartList',method:'get'})
