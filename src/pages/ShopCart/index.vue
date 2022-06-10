@@ -125,8 +125,19 @@
 </template>
 
 <script>
+  import {mapState} from 'vuex'
+  import { reqGetCartList } from "@/api";
+
   export default {
     name: 'ShopCart',
+    mounted(){
+      this.$store.dispatch('getCartList')
+    },
+    computed:{
+      ...mapState({
+        cartList: (state) => state.shopcart.cartList
+      })
+    }
   }
 </script>
 
