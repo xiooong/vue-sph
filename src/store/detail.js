@@ -1,7 +1,10 @@
 import { reqGetDetailInfo, reqUpdateShopcarInfo } from "@/api"
+// 封装临时游客模块uuid  =>>生成一个随机字符串
+import {getUUID} from '@/utils/uuid_token'
 
 const state = {
-    goodInfo: {}
+    goodInfo: {},
+    uuid_token: getUUID()
 }
 const mutations = {
     GETDETAILINFO(state, goodInfo) {
