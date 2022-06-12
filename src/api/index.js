@@ -34,3 +34,18 @@ export const reqRemoveShopCart = (skuId)=>requests({url:`/cart/deleteCart/${skuI
 
 // 切换购物车商品选中状态
 export const reqChangeCartCheck = (skuId,isChecked)=>requests.get(`/cart/checkCart/${skuId}/${isChecked}`)
+
+// 获取验证码
+export const reqGetCode = (phone)=>requests.get(`/user/passport/sendCode/${phone}`)
+
+// 用户注册 
+export const reqUserRegister = (data)=>requests({url:'/user/passport/register', data, method:'post'})
+
+// 用户登录
+export const reqUserLogin = (data)=>requests({url:'/user/passport/login', data, method:'post'})
+
+// 根据token获取用户信息
+export const reqGetUserInfo = ()=>requests({url:'/user/passport/auth/getUserInfo', method:'get'})
+
+// 退出登录
+export const reqLogout = ()=>requests({url:'/user/passport/logout',method:'get'})

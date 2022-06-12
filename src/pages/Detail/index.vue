@@ -393,8 +393,12 @@ export default {
           skuId: this.$route.params.skuId,
           skuNum: this.skuNum,
         });
-        this.$router.push({name:'addcartsuccess', query:{skuNum: this.skuNum}})
-        sessionStorage.setItem('SKUINFO',JSON.stringify(this.skuInfo))
+        if(localStorage.getItem('TOKEN')){
+          this.$router.push({name:'addcartsuccess', query:{skuNum: this.skuNum}})
+          sessionStorage.setItem('SKUINFO',JSON.stringify(this.skuInfo))
+        }else{
+          this.$router.push('/login')
+        }
       } catch (error) {
         alert(error.message);
       }

@@ -1,8 +1,8 @@
-
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
 import routes from '@/router/routes'
+import store from '@/store'
 
 // 使用插件
 Vue.use(VueRouter)
@@ -34,10 +34,27 @@ VueRouter.prototype.replace = function(location,resolve,reject){
 }
 
 // 配置路由
-export default new VueRouter({
+let router = new VueRouter({
     routes, 
     // 滚动行为
     scrollBehavior (to, from, savedPosition) {
         return { y:0 }
     }
 })
+
+router.beforeEach((to, from, next) => {
+    // to and from are both route objects. must call `next`.
+    let token = store.state.user.token
+    if(token){
+        if(to.path=='/login'){
+            next('/home')
+        }else{
+            next()
+        }
+    }else{
+        
+    }
+    
+})
+
+export default router
