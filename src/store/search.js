@@ -1,4 +1,4 @@
-import {reqGetSearchInfo} from '@/api'
+import { reqGetSearchInfo, mockGetSearchInfo } from '@/api'
 
 const state = {
     searchList: {}
@@ -12,7 +12,7 @@ const mutations = {
 
 const actions = {
     async getSearchList({commit}, params = {}){
-        let result = await reqGetSearchInfo(params)
+        let result = await mockGetSearchInfo(params)
         console.log('搜索接口：', result)
         if(result.code == 200){
             commit('GETSEARCHLIST', result.data)

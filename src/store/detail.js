@@ -23,7 +23,7 @@ const actions = {
     async updateShopcar({state, commit, dispatch},{skuId,skuNum}){
         // debugger
         let result = await reqUpdateShopcarInfo(skuId,skuNum)
-        console.log(result,skuId,skuNum)
+        console.log('添加购物车接口',result)
 
         if(result.code == 200){
             return 'ok'

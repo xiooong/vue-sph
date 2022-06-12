@@ -1,0 +1,62 @@
+{
+    "trademarkList": [
+        {
+            "tmId": 1,
+            "tmName": "苹果"
+        },
+        {
+            "tmId": 2,
+            "tmName": "小米"
+        }
+    ],
+    "attrsList": [
+        {
+            "attrId": 1,
+            "attrValueList": [
+                "4500-11999",
+                "2800-4499"
+            ],
+            "attrName": "价格"
+        }
+    ],
+    "goodsList": [
+        {
+            "id": 2,
+            "defaultImg": "http://47.93.148.192:8080/group1/M00/00/01/rBHu8l-rfvmAHpFuAACTenfIJWo734.jpg",
+            "title": "Apple iPhone 11 (A2223)",
+            "price": 5499,
+            "createTime": null,
+            "tmId": null,
+            "tmName": null,
+            "category1Id": null,
+            "category1Name": null,
+            "category2Id": null,
+            "category2Name": null,
+            "category3Id": null,
+            "category3Name": null,
+            "hotScore": 0,
+            "attrs": null
+        },
+        {
+            "id": 3,
+            "defaultImg": "http://47.93.148.192:8080/group1/M00/00/01/rBHu8l-rfvmAHpFuAACTenfIJWo734.jpg",
+            "title": "小米小米小米",
+            "price": 5499,
+            "createTime": null,
+            "tmId": 1,
+            "tmName": null,
+            "category1Id": null,
+            "category1Name": null,
+            "category2Id": null,
+            "category2Name": null,
+            "category3Id": null,
+            "category3Name": null,
+            "hotScore": 0,
+            "attrs": null
+        }
+    ],
+    "total": 8,
+    "pageSize": 2,
+    "pageNo": 1,
+    "totalPages": 4
+}

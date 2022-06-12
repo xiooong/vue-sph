@@ -75,3 +75,12 @@ a:link:hover{
     clear: both;
     visibility: hidden;
 }
+
+/* 清除number格式的输入框的加减键 */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+	-webkit-appearance: none;
+}
+input[type='number'] {
+	-moz-appearance: textfield;
+}

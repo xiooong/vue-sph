@@ -14,6 +14,24 @@ import Footer from './components/Footer'
 
 export default {
   name: 'App',
+  // provide() {
+  //   return {
+  //     reload: this.reload
+  //   }
+  // },
+  // data(){
+  //   return {
+  //     isRouterAlive: true
+  //   }
+  // },
+  // methods: {
+  //   reload () {
+  //     this.isRouerAlive = false
+  //     this.$nextTick(function(){
+  //       this.isRouterAlive = true
+  //     })
+  //   }
+  // },
   components: {
     Header,
     Footer,

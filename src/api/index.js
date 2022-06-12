@@ -18,6 +18,7 @@ export const reqGetFloorList = ()=>mockRequests.get('/floor')
 // search 搜索页面
 // 当前这个接口，给服务器传递一个默认参数（至少是一个空对象{}） 
 export const reqGetSearchInfo = (params)=>requests({url:"/list",method:"post",data:params})
+export const mockGetSearchInfo = (params)=>mockRequests.get('/search')
 
 // detail商品详情页
 export const reqGetDetailInfo = (skuId)=>requests({url:`/item/${skuId}`,method:"get"})
@@ -27,3 +28,9 @@ export const reqUpdateShopcarInfo = (skuId,skuNum)=>requests({url:`/cart/addToCa
 
 // 获取购物车列表
 export const reqGetCartList = ()=>requests({url:'/cart/cartList',method:'get'})
+
+// 删除购物车商品
+export const reqRemoveShopCart = (skuId)=>requests({url:`/cart/deleteCart/${skuId}`, method:'delete'})
+
+// 切换购物车商品选中状态
+export const reqChangeCartCheck = (skuId,isChecked)=>requests.get(`/cart/checkCart/${skuId}/${isChecked}`)
