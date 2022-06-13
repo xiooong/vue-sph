@@ -42,17 +42,34 @@ let router = new VueRouter({
     }
 })
 
-router.beforeEach((to, from, next) => {
+router.beforeEach(async (to, from, next) => {
     // to and from are both route objects. must call `next`.
     let token = store.state.user.token
+    let name = store.state.user.userInfo.name
+    // 判断是否已登录
     if(token){
+        // 是否访问login页面（已登录的不给访问login）
         if(to.path=='/login'){
             next('/home')
         }else{
-            next()
+            // 用户信息是否为空
+            if(name) {
+                next()
+            }else {
+                try {
+                    // 若为空就获取用户信息（刷新页面或跳转页面情况）
+                    await store.dispatch('getUserInfo')
+                    next()
+                } catch (error) {
+                    // token失效了
+                    await store.dispatch('userLogout')
+                    next('/login')
+                }
+            }
         }
     }else{
-        
+        // 待处理
+        next()
     }
     
 })
