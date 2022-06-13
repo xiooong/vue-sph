@@ -76,9 +76,9 @@
         <span>全选</span>
       </div>
       <div class="option">
-        <a href="#none" @click="removeAllCheckedCart">删除选中的商品</a>
-        <a href="#none">移到我的关注</a>
-        <a href="#none">清除下柜商品</a>
+        <span @click="removeAllCheckedCart">删除选中的商品</span>
+        <span>移到我的关注</span>
+        <span>清除下柜商品</span>
       </div>
       <div class="money-box">
         <div class="chosed">
@@ -134,7 +134,6 @@ export default {
     async removeShopCart(skuId) {
       try {
         await this.$store.dispatch("removeShopCart", skuId);
-        this.$router.push({ name: "shopcart" });
         this.getShopCartList();
         // this.reload()
       } catch (error) {
@@ -146,8 +145,8 @@ export default {
     },
     handler: throttle(async function (type, disnum, cart) {
       // type: 区分是谁触发了事件
-      // dinum: 向后台传递什么数值1、-1、num
-      // cart：获取对应被修改的商品id
+      // disnum: 向后台传递什么数值1、-1、num
+      // cart：获取对应被修改的商品id 
       switch (type) {
         case "add":
           disnum = 1;
@@ -194,7 +193,7 @@ export default {
       try {
         await this.$store.dispatch('removeAllCheckedCart')
         this.getShopCartList()
-        this.$router.push({name:'shopcart'})
+        // this.$router.push({name:'shopcart'})
       } catch (error) {
         console.error(error.message)
       }
@@ -204,7 +203,6 @@ export default {
         let isChecked = e.target.checked ? '1':'0'
         await this.$store.dispatch('changeAllCartCheck',isChecked)
         this.getShopCartList()
-        this.$router.push({name:'shopcart'})
       } catch (error) {
         console.error(error.message)
         alert(error.message)

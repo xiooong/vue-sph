@@ -12,7 +12,7 @@ const mutations = {
 
 const actions = {
     async getSearchList({commit}, params = {}){
-        let result = await mockGetSearchInfo(params)
+        let result = await reqGetSearchInfo(params)
         console.log('搜索接口：', result)
         if(result.code == 200){
             commit('GETSEARCHLIST', result.data)
