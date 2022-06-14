@@ -49,3 +49,18 @@ export const reqGetUserInfo = ()=>requests({url:'/user/passport/auth/getUserInfo
 
 // 退出登录
 export const reqLogout = ()=>requests({url:'/user/passport/logout',method:'get'})
+
+// 获取用户地址信息
+export const reqGetUserAddress = ()=>requests({url:'/user/userAddress/auth/findUserAddressList',method:'get'})
+
+// 获取订单交易页信息（trade)
+export const reqGetTradeInfo = ()=>requests({url:'/order/auth/trade',method:'get'})
+
+// 获取我的订单列表
+export const reqGetOrderInfo = (page,limit)=>requests({url:`/order/auth/${page}/${limit}`,method:'get'})
+
+// 提交订单
+export const reqSubmitOrder = (data)=>requests({url:`/order/auth/submitOrder?tradeNo=${data.tradeNo}`,data,method:'post'})
+
+// 获取订单支付信息
+export const reqGetPayInfo = ()=>requests({url:`/payment/weixin/createNative/${orderId}`,method:'get'})

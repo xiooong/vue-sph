@@ -90,7 +90,7 @@
           <i class="summoney">{{ totalPrice }}</i>
         </div>
         <div class="sumbtn">
-          <a class="sum-btn" href="###" target="_blank">结算</a>
+          <router-link class="sum-btn" to="/trade">结算</router-link>
         </div>
       </div>
     </div>
@@ -157,8 +157,7 @@ export default {
           break;
         case "change":
           // 简写
-          disnum =
-            isNaN(disnum) || disnum < 1 ? 0 : parseInt(disnum) - cart.skuNum;
+          disnum = isNaN(disnum) || disnum < 1 ? 0 : parseInt(disnum) - cart.skuNum;
           // if(isNaN(disnum) || disnum<1) {
           //   disnum = 0;
           // }else {
@@ -423,6 +422,7 @@ export default {
           font-family: "Microsoft YaHei";
           background: #e1251b;
           overflow: hidden;
+          cursor: pointer;
         }
       }
     }

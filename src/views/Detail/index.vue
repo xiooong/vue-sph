@@ -393,12 +393,16 @@ export default {
           skuId: this.$route.params.skuId,
           skuNum: this.skuNum,
         });
-        if(localStorage.getItem('TOKEN')){
-          this.$router.push({name:'addcartsuccess', query:{skuNum: this.skuNum}})
-          sessionStorage.setItem('SKUINFO',JSON.stringify(this.skuInfo))
-        }else{
-          this.$router.push('/login')
-        }
+        // 判断是否登录，统一在路由前置守卫判断
+        // if(localStorage.getItem('TOKEN')){
+        //   this.$router.push({name:'addcartsuccess', query:{skuNum: this.skuNum}})
+        //   sessionStorage.setItem('SKUINFO',JSON.stringify(this.skuInfo))
+        // }else{
+        //   this.$router.push('/login')
+        // }
+        sessionStorage.setItem('SKUINFO',JSON.stringify(this.skuInfo))
+        this.$router.push({name:'addcartsuccess', query:{skuNum: this.skuNum}})
+        
       } catch (error) {
         alert(error.message);
       }

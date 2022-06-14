@@ -1,22 +1,27 @@
 // 引入路由组件
-import Home from '@/pages/Home'
-import Search from '@/pages/Search'
-import Login from '@/pages/Login'
-import Register from '@/pages/Register'
-import Detail from '@/pages/Detail'
+import Home from '@/views/Home'
+import Search from '@/views/Search'
+import Login from '@/views/Login'
+import Register from '@/views/Register'
+import Detail from '@/views/Detail'
 
 
 // 路由配置信息
 export default  [
     {
+        path: "/trade",
+        name: "trade",
+        component: () => import("@/views/Trade")
+    },
+    {
         path: "/shopcart",
         name: "shopcart",
-        component: () => import("@/pages/ShopCart")
+        component: () => import("@/views/ShopCart")
     },
     {
         path: "/addcartsuccess",
         name: "addcartsuccess",
-        component: () => import("@/pages/AddCartSuccess")
+        component: () => import("@/views/AddCartSuccess")
 
     },
     {
