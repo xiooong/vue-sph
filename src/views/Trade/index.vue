@@ -4,11 +4,11 @@
     <div class="content">
       <h5 class="receive">收件人信息</h5>
       <div class="address clearFix" v-for="addr in userAddress" :key="addr.id">
-        <span class="username selected">{{ addr.consignee }}</span>
-        <p>
+        <span class="username " :class="{selected:addr.isDefault == 1}">{{ addr.consignee }}</span>
+        <p @click="changeDefault(addr,userAddress)">
           <span class="s1">{{ addr.fullAddress }}</span>
           <span class="s2">{{ addr.phoneNum }}</span>
-          <span class="s3">默认地址</span>
+          <span class="s3" v-show="addr.isDefault == 1">默认地址</span>
         </p>
       </div>
       <div class="line"></div>
@@ -77,9 +77,9 @@
       <div class="price">应付金额:　<span>¥5399.00</span></div>
       <div class="receiveInfo">
         寄送至:
-        <span>北京市昌平区宏福科技园综合楼6层</span>
-        收货人：<span>张三</span>
-        <span>15010658793</span>
+        <span>{{defaultAddress.fullAddress}}</span>
+        收货人：<span>{{defaultAddress.consignee}}</span>
+        <span>{{defaultAddress.phoneNum}}</span>
       </div>
     </div>
     <div class="sub clearFix">
@@ -94,16 +94,29 @@ export default {
   name: "Trade",
   mounted() {
     this.$store.dispatch("getUserAddress");
+    this.$store.dispatch("getTradeInfo")
   },
   computed: {
     ...mapGetters(["cartList"]),
     ...mapState({
       userAddress: (state) => state.trade.userAddress,
-      // skuInfo: state => (state.shopcart.cartList)
+      orderInfo: (state) =>state.trade.orderInfo
     }),
     cartInfoList() {
       return this.cartList.cartInfoList || [];
     },
+    defaultAddress(){
+      return this.userAddress.find(item => item.id == 2)
+    }
+  },
+  methods: {
+    changeDefault(addr,addressInfo){
+      addressInfo.forEach(item => {
+        item.isDefault = 0
+      });
+        addr.isDefault = 1
+
+    }
   },
 };
 </script>
