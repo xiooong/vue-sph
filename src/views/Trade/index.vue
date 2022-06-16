@@ -67,11 +67,9 @@
     <div class="money clearFix">
       <ul>
         <li>
-          <b
-            ><i>{{ tradeInfo.totalNum }}</i
-            >件商品，总商品金额</b
-          >
-          <span>¥{{ tradeInfo.originalTotalAmount }}</span>
+          <b>
+            <i>{{ tradeInfo.totalNum }}</i>件商品，总商品金额</b>
+            <span>¥{{ tradeInfo.originalTotalAmount }}</span>
         </li>
         <li>
           <b>返现：</b>
@@ -85,7 +83,7 @@
     </div>
     <div class="trade">
       <div class="price">
-        应付金额:　<span>¥{{}}</span>
+        应付金额:　<span>¥{{tradeInfo.totalAmount}}</span>
       </div>
       <div class="receiveInfo">
         寄送至:
@@ -115,7 +113,7 @@ export default {
     this.$store.dispatch("getTradeInfo");
   },
   computed: {
-    ...mapGetters(["cartList", "trade"]),
+    ...mapGetters(["cartList"]),
     ...mapState({
       userAddress: (state) => state.trade.userAddress,
       tradeInfo: (state) => state.trade.tradeInfo,
@@ -135,7 +133,7 @@ export default {
       addr.isDefault = 1;
     },
     async submitTrade() {
-      let { tradeNo } = this.tradeInfo;
+      let tradeNo  = this.tradeInfo.tradeNo;
       let data = {
         consignee: this.defaultAddress.consignee,
         consigneeTel: this.defaultAddress.phoneNum,
@@ -146,7 +144,7 @@ export default {
       };
       // 调用提交订单接口并传递（tradeNo,data）两个参数
       let result = await this.$API.reqSubmitOrder(tradeNo,data);
-      console.log(result);
+      console.log('提交订单接口',result);
 
       if(result.code == 200){
         this.orderId = result.data

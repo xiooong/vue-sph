@@ -9,6 +9,11 @@ import Detail from '@/views/Detail'
 // 路由配置信息
 export default  [
     {
+        path: "/paysuccess",
+        name: "paysuccess",
+        component: () => import("@/views/PaySuccess")
+    },
+    {
         path: "/pay",
         name: "pay",
         component: () => import("@/views/Pay")

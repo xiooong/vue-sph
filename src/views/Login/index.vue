@@ -38,7 +38,7 @@
                 </label>
                 <span class="forget">忘记密码？</span>
               </div>
-              <button class="btn" @click.prevent="userLogin">登&nbsp;&nbsp;录</button>
+              <button class="btn" @click.prevent="userLogin" style="cursor:pointer">登&nbsp;&nbsp;录</button>
             </form>
 
             <div class="call clearFix">
