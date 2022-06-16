@@ -38,7 +38,10 @@ const actions = {
 }
 
 const getters = {
-    
+    // 简化用户结算订单列表
+    trade(state){
+        return state.tradeInfo.detailArrayList || []
+    }
 }
 
 export default {

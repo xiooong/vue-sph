@@ -60,7 +60,7 @@ export const reqGetTradeInfo = ()=>requests({url:'/order/auth/trade',method:'get
 export const reqGetOrderInfo = (page,limit)=>requests({url:`/order/auth/${page}/${limit}`,method:'get'})
 
 // 提交订单
-export const reqSubmitOrder = (data)=>requests({url:`/order/auth/submitOrder?tradeNo=${data.tradeNo}`,data,method:'post'})
+export const reqSubmitOrder = (tradeNo,data)=>requests({url:`/order/auth/submitOrder?tradeNo=${tradeNo}`,data,method:'post'})
 
 // 获取订单支付信息
-export const reqGetPayInfo = ()=>requests({url:`/payment/weixin/createNative/${orderId}`,method:'get'})
+export const reqGetPayInfo = (orderId)=>requests({url:`/payment/weixin/createNative/${1}`,method:'get'})

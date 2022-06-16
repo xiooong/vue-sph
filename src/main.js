@@ -18,9 +18,8 @@ import store from '@/store'
 import '@/mock/mockServe'
 // 引入swiper轮播图css样式
 import 'swiper/css/swiper.css'
-//测试
-// import {reqGetSearchInfo} from '@/api'
-// reqGetSearchInfo({})
+// 引入所有接口
+import * as API from '@/api'
 
 Vue.config.productionTip = false
 
@@ -29,6 +28,8 @@ new Vue({
   // 配置全局事件总线
   beforeCreate(){ 
     Vue.prototype.$bus = this
+    Vue.prototype.$API = API
+    console.log(this)
   },
   //注册路由
   //当这里写router时，每个组件（包括路由/非路由组件）都拥有$route和$router

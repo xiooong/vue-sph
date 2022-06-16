@@ -4,8 +4,10 @@
     <div class="content">
       <h5 class="receive">收件人信息</h5>
       <div class="address clearFix" v-for="addr in userAddress" :key="addr.id">
-        <span class="username " :class="{selected:addr.isDefault == 1}">{{ addr.consignee }}</span>
-        <p @click="changeDefault(addr,userAddress)">
+        <span class="username" :class="{ selected: addr.isDefault == 1 }">{{
+          addr.consignee
+        }}</span>
+        <p @click="changeDefault(addr, userAddress)">
           <span class="s1">{{ addr.fullAddress }}</span>
           <span class="s2">{{ addr.phoneNum }}</span>
           <span class="s3" v-show="addr.isDefault == 1">默认地址</span>
@@ -28,18 +30,22 @@
       </div>
       <div class="detail">
         <h5>商品清单</h5>
-        <ul class="list clearFix" v-for="cart in cartInfoList" :key="cart.id">
+        <ul
+          class="list clearFix"
+          v-for="trade in tradeInfo.detailArrayList"
+          :key="trade.skuId"
+        >
           <li>
-            <img style="width:100px;height:100px" :src="cart.imgUrl" />
+            <img style="width: 100px; height: 100px" :src="trade.imgUrl" />
           </li>
           <li>
-            <p>{{ cart.skuName }}</p>
+            <p>{{ trade.skuName }}</p>
             <h4>7天无理由退货</h4>
           </li>
           <li>
-            <h3>￥{{ cart.cartPrice }}</h3>
+            <h3>￥{{ trade.orderPrice }}</h3>
           </li>
-          <li>X{{ cart.skuNum }}</li>
+          <li>X{{ trade.skuNum }}</li>
           <li>有货</li>
         </ul>
       </div>
@@ -48,6 +54,7 @@
         <textarea
           placeholder="建议留言前先与商家沟通确认"
           class="remarks-cont"
+          v-model="userRemark"
         ></textarea>
       </div>
       <div class="line"></div>
@@ -60,12 +67,15 @@
     <div class="money clearFix">
       <ul>
         <li>
-          <b><i>1</i>件商品，总商品金额</b>
-          <span>¥5399.00</span>
+          <b
+            ><i>{{ tradeInfo.totalNum }}</i
+            >件商品，总商品金额</b
+          >
+          <span>¥{{ tradeInfo.originalTotalAmount }}</span>
         </li>
         <li>
           <b>返现：</b>
-          <span>0.00</span>
+          <span>{{ tradeInfo.activityReduceAmount }}</span>
         </li>
         <li>
           <b>运费：</b>
@@ -74,16 +84,18 @@
       </ul>
     </div>
     <div class="trade">
-      <div class="price">应付金额:　<span>¥5399.00</span></div>
+      <div class="price">
+        应付金额:　<span>¥{{}}</span>
+      </div>
       <div class="receiveInfo">
         寄送至:
-        <span>{{defaultAddress.fullAddress}}</span>
-        收货人：<span>{{defaultAddress.consignee}}</span>
-        <span>{{defaultAddress.phoneNum}}</span>
+        <span>{{ defaultAddress.fullAddress }}</span>
+        收货人：<span>{{ defaultAddress.consignee }}</span>
+        <span>{{ defaultAddress.phoneNum }}</span>
       </div>
     </div>
     <div class="sub clearFix">
-      <router-link class="subBtn" to="/pay">提交订单</router-link>
+      <span class="subBtn" @click="submitTrade">提交订单</span>
     </div>
   </div>
 </template>
@@ -92,31 +104,59 @@
 import { mapState, mapGetters } from "vuex";
 export default {
   name: "Trade",
+  data() {
+    return {
+      userRemark: "",
+      orderId: ''
+    };
+  },
   mounted() {
     this.$store.dispatch("getUserAddress");
-    this.$store.dispatch("getTradeInfo")
+    this.$store.dispatch("getTradeInfo");
   },
   computed: {
-    ...mapGetters(["cartList"]),
+    ...mapGetters(["cartList", "trade"]),
     ...mapState({
       userAddress: (state) => state.trade.userAddress,
-      orderInfo: (state) =>state.trade.orderInfo
+      tradeInfo: (state) => state.trade.tradeInfo,
     }),
     cartInfoList() {
       return this.cartList.cartInfoList || [];
     },
-    defaultAddress(){
-      return this.userAddress.find(item => item.id == 2)
-    }
+    defaultAddress() {
+      return this.userAddress.find((item) => item.isDefault == 1) || {};
+    },
   },
   methods: {
-    changeDefault(addr,addressInfo){
-      addressInfo.forEach(item => {
-        item.isDefault = 0
+    changeDefault(addr, addressInfo) {
+      addressInfo.forEach((item) => {
+        item.isDefault = 0;
       });
-        addr.isDefault = 1
+      addr.isDefault = 1;
+    },
+    async submitTrade() {
+      let { tradeNo } = this.tradeInfo;
+      let data = {
+        consignee: this.defaultAddress.consignee,
+        consigneeTel: this.defaultAddress.phoneNum,
+        deliveryAddress: this.defaultAddress.fullAddress,
+        paymentWay: "ONLINE",
+        orderComment: this.userRemark,
+        orderDetailList: this.tradeInfo.detailArrayList,
+      };
+      // 调用提交订单接口并传递（tradeNo,data）两个参数
+      let result = await this.$API.reqSubmitOrder(tradeNo,data);
+      console.log(result);
 
-    }
+      if(result.code == 200){
+        this.orderId = result.data
+        this.$router.push("/pay?orderId="+this.orderId);
+
+      }else{
+        alert(result.data)
+      }
+
+    },
   },
 };
 </script>
