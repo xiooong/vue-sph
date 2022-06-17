@@ -402,6 +402,7 @@ export default {
       text-align: center;
       color: #fff;
       background-color: #e1251b;
+      cursor: pointer;
     }
   }
 }

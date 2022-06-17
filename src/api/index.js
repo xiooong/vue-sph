@@ -56,9 +56,6 @@ export const reqGetUserAddress = ()=>requests({url:'/user/userAddress/auth/findU
 // 获取订单交易页信息（trade)
 export const reqGetTradeInfo = ()=>requests({url:'/order/auth/trade',method:'get'})
 
-// 获取我的订单列表
-export const reqGetOrderInfo = (page,limit)=>requests({url:`/order/auth/${page}/${limit}`,method:'get'})
-
 // 提交订单
 export const reqSubmitOrder = (tradeNo,data)=>requests({url:`/order/auth/submitOrder?tradeNo=${tradeNo}`,data,method:'post'})
 
@@ -67,3 +64,6 @@ export const reqGetPayInfo = (orderId)=>requests({url:`/payment/weixin/createNat
 
 // 获取订单支付状态
 export const reqGetOrderState = (orderId)=>requests({url:`/payment/weixin/queryPayStatus/${orderId}`,method:'get'})
+
+// 获取我的订单列表
+export const reqGetOrderInfo = (page,limit)=>requests({url:`/order/auth/${page}/${limit}`,method:'get'})
