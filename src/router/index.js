@@ -71,8 +71,16 @@ router.beforeEach(async (to, from, next) => {
             }
         }
     } else {
-        // 待处理
-        next()
+        // 未登录
+        // 限制交易页面，支付页面（pay,payseccess），个人中心
+        // 跳转登录页
+        let toPath = to.path
+        let path = ['/trade','/pay','/paysuccess','/center/myorder','/center/grouporder']
+        if(path.findIndex(item=> item == toPath)==-1){
+          next()
+        }else{
+          next('/login?redirect='+toPath)
+        }
     }
 
 })

@@ -1,5 +1,7 @@
 <template>
   <div>
+    <!-- 测试自定义插件中的自定义事件v-pupu -->
+    <!-- <h1 v-pupu="msg"></h1> -->
     <Header></Header>
     <!-- 路由出口组件的地方 -->
     <router-view></router-view>
@@ -14,6 +16,11 @@ import Footer from './components/Footer'
 
 export default {
   name: 'App',
+  data(){
+    return {
+      msg: 'abc'
+    }
+  },
   // provide() {
   //   return {
   //     reload: this.reload

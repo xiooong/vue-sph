@@ -88,7 +88,9 @@ export default {
       try {
         let { phone, password } = this;
         phone && password && await this.$store.dispatch('userLogin',{phone,password});
-        this.$router.push('home')
+        // 登录跳转判断是否有query，如有，跳到query指定路径
+        let toPath = this.$route.query.redirect || "home"
+        this.$router.push(toPath)
       } catch (error) {
         console.error(error.message)
       }

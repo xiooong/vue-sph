@@ -37,12 +37,28 @@ export default [
   {
     path: "/pay",
     name: "pay",
-    component: () => import("@/views/Pay")
+    component: () => import("@/views/Pay"),
+    beforeEnter: (to, from, next)=>{
+      if(from.path == '/trade'){
+        next()
+      }else{
+        next(false)
+      }
+    }
   },
   {
     path: "/trade",
     name: "trade",
-    component: () => import("@/views/Trade")
+    component: () => import("@/views/Trade"),
+    // 路由独享守卫
+    beforeEnter:(to, from, next) =>{
+      if(from.path == '/shopcart'){
+        next()
+      }else{
+        // 中断导航（从哪来回哪去）
+        next(false)
+      }
+    }
   },
   {
     path: "/shopcart",
